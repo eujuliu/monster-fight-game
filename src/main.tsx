@@ -7,11 +7,11 @@ import { Routes } from "react-router";
 import { Route } from "react-router";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>,
+	<StrictMode>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<App />} />
+			</Routes>
+		</BrowserRouter>
+	</StrictMode>,
 );
