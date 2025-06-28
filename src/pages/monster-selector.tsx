@@ -15,17 +15,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { NavLink } from "react-router";
-import { Information } from "@/components/information";
+import { Information, type MonsterInformation } from "@/components/information";
 import {
   getDefaultMonsters,
   getLocalStorageMonsters,
   setLocalStorageMonsters,
 } from "@/utils/monsters";
-
-type Info = {
-  label: string;
-  name: MonsterInfoKeys;
-};
+import { MonsterCard } from "@/components/monster-card";
 
 const formSchema = z.object({
   name: z
@@ -154,7 +150,7 @@ const fields: FormField[] = [
     ),
   },
 ];
-const informations: Info[] = [
+const informations: MonsterInformation[] = [
   { label: "HP", name: "hp" },
   { label: "Attack", name: "attack" },
   { label: "Defense", name: "defense" },
@@ -208,85 +204,61 @@ function MonsterSelector() {
   }
 
   return (
-    <div className="flex items-center justify-center flex-col gap-2 h-full relative">
-      <header className="flex justify-between gap-2 w-full pt-2">
-        <div>
-          <Button
-            variant="ghost"
-            className={currentSelecting == "left" ? "font-bold" : ""}
-            onClick={() => setCurrentSelecting("left")}
-          >
-            Left
+    <div className="bg-[url(/images/backgrounds/tavern.png)] h-full bg-cover bg-center">
+      <div className="flex items-center justify-center flex-col gap-2 h-full relative backdrop-blur-sm">
+        <header className="flex justify-between gap-2 w-full pt-2">
+          <div>
+            <Button
+              variant="ghost"
+              className={currentSelecting == "left" ? "font-bold" : ""}
+              onClick={() => setCurrentSelecting("left")}
+            >
+              Left
+            </Button>
+            <Button
+              variant="ghost"
+              className={currentSelecting == "right" ? "font-bold" : ""}
+              onClick={() => setCurrentSelecting("right")}
+            >
+              Right
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <FormDialog<Monster>
+              open={dialogOpen}
+              form={form}
+              fields={fields}
+              trigger={<Button>New</Button>}
+              triggerAsChild
+              title="Create a Monster"
+              description="Here you will create your monster that will be used in the battles, choose the stats in a carefull way"
+              onSubmit={onSubmit}
+              onChangeOpen={setDialogOpen}
+            />
+          </div>
+        </header>
+
+        <MonsterCard monster={selected[currentSelecting]} />
+
+        <MonsterSelect
+          monsters={monsters}
+          className="mt-auto"
+          onChangeMonster={handleMonsterSelection}
+          value={selected}
+        />
+
+        <div className="w-full flex items-center justify-end gap-2">
+          <Button asChild>
+            <NavLink to="/">Back</NavLink>
           </Button>
-          <Button
-            variant="ghost"
-            className={currentSelecting == "right" ? "font-bold" : ""}
-            onClick={() => setCurrentSelecting("right")}
-          >
-            Right
+          <Button asChild>
+            <NavLink
+              to={`/battle?left=${selected.left?.id}&right=${selected.right?.id}`}
+            >
+              Fight
+            </NavLink>
           </Button>
         </div>
-        <div className="flex gap-2">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button>Informations</Button>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2">
-              {informations.map(({ label, name }) => (
-                <Information
-                  key={name}
-                  name={name}
-                  label={label}
-                  value={(selected[currentSelecting]?.[name] as number) || 0}
-                />
-              ))}
-            </PopoverContent>
-          </Popover>
-
-          <FormDialog<Monster>
-            open={dialogOpen}
-            form={form}
-            fields={fields}
-            trigger={<Button>New</Button>}
-            triggerAsChild
-            title="Create a Monster"
-            description="Here you will create your monster that will be used in the battles, choose the stats in a carefull way"
-            onSubmit={onSubmit}
-            onChangeOpen={setDialogOpen}
-          />
-        </div>
-      </header>
-
-      <img
-        src={
-          selected[currentSelecting]?.image_url ||
-          "/images/monsters/humanoid.jpg"
-        }
-        alt={`A monster with name ${selected[currentSelecting]?.name}`}
-        className="h-full max-h-[calc(100vh-426px)] w-full object-contain"
-      />
-      <div className="text-2xl font-bold self-start">
-        {selected[currentSelecting]?.name || "?????"}
-      </div>
-
-      <MonsterSelect
-        monsters={monsters}
-        className="mt-auto"
-        onChangeMonster={handleMonsterSelection}
-        value={selected}
-      />
-
-      <div className="w-full flex items-center justify-end gap-2">
-        <Button asChild>
-          <NavLink to="/">Back</NavLink>
-        </Button>
-        <Button asChild>
-          <NavLink
-            to={`/battle?left=${selected.left?.id}&right=${selected.right?.id}`}
-          >
-            Fight
-          </NavLink>
-        </Button>
       </div>
     </div>
   );
