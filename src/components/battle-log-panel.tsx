@@ -77,7 +77,7 @@ function BattleLogPanel({ logs, className }: Props) {
   return (
     <div className={divClassName}>
       <h2 className="text-lg font-semibold mb-2">Battle Log</h2>
-      <div className="w-full h-80 overflow-y-auto ">
+      <div className="w-full max-h-80 h-full overflow-y-auto">
         <ul className="space-y-2 text-sm font-mono">
           {logs.map((log) => (
             <li key={log.id} className="flex items-start gap-2">
