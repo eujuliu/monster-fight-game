@@ -1,0 +1,175 @@
+{
+  "defaultMonsters": [
+    {
+      "id": 1,
+      "name": "Goblin",
+      "attack": 8,
+      "defense": 5,
+      "speed": 12,
+      "hp": 20,
+      "image_url": "/images/monsters/goblin.png"
+    },
+    {
+      "id": 2,
+      "name": "Orc",
+      "attack": 14,
+      "defense": 10,
+      "speed": 9,
+      "hp": 35,
+      "image_url": "/images/monsters/orc.png"
+    },
+    {
+      "id": 3,
+      "name": "Skeleton",
+      "attack": 10,
+      "defense": 8,
+      "speed": 11,
+      "hp": 25,
+      "image_url": "/images/monsters/skeleton.png"
+    },
+    {
+      "id": 4,
+      "name": "Dragon Whelp",
+      "attack": 18,
+      "defense": 12,
+      "speed": 15,
+      "hp": 40,
+      "image_url": "/images/monsters/dragon.png"
+    },
+    {
+      "id": 5,
+      "name": "Kobold",
+      "attack": 6,
+      "defense": 4,
+      "speed": 13,
+      "hp": 18,
+      "image_url": "/images/monsters/imp.png"
+    },
+    {
+      "id": 6,
+      "name": "Troll",
+      "attack": 20,
+      "defense": 14,
+      "speed": 6,
+      "hp": 60,
+      "image_url": "/images/monsters/troll.png"
+    },
+    {
+      "id": 7,
+      "name": "Bandit",
+      "attack": 11,
+      "defense": 9,
+      "speed": 10,
+      "hp": 28,
+      "image_url": "/images/monsters/bandit.png"
+    },
+    {
+      "id": 8,
+      "name": "Giant Spider",
+      "attack": 13,
+      "defense": 7,
+      "speed": 14,
+      "hp": 32,
+      "image_url": "/images/monsters/spider.png"
+    },
+    {
+      "id": 9,
+      "name": "Zombie",
+      "attack": 7,
+      "defense": 11,
+      "speed": 4,
+      "hp": 45,
+      "image_url": "/images/monsters/zombie.png"
+    },
+    {
+      "id": 10,
+      "name": "Imp",
+      "attack": 9,
+      "defense": 6,
+      "speed": 16,
+      "hp": 22,
+      "image_url": "/images/monsters/demon.png"
+    },
+    {
+      "id": 11,
+      "name": "Minotaur",
+      "attack": 17,
+      "defense": 13,
+      "speed": 8,
+      "hp": 50,
+      "image_url": "/images/monsters/minotaur.png"
+    },
+    {
+      "id": 12,
+      "name": "Lich",
+      "attack": 19,
+      "defense": 10,
+      "speed": 12,
+      "hp": 35,
+      "image_url": "/images/monsters/wizard.png"
+    },
+    {
+      "id": 14,
+      "name": "Wraith",
+      "attack": 15,
+      "defense": 8,
+      "speed": 17,
+      "hp": 28,
+      "image_url": "/images/monsters/ghost.png"
+    },
+    {
+      "id": 15,
+      "name": "Golem",
+      "attack": 13,
+      "defense": 18,
+      "speed": 3,
+      "hp": 70,
+      "image_url": "/images/monsters/rock.png"
+    },
+    {
+      "id": 16,
+      "name": "Banshee",
+      "attack": 12,
+      "defense": 7,
+      "speed": 16,
+      "hp": 24,
+      "image_url": "/images/monsters/banshee.png"
+    },
+    {
+      "id": 17,
+      "name": "Wyvern",
+      "attack": 16,
+      "defense": 11,
+      "speed": 14,
+      "hp": 42,
+      "image_url": "/images/monsters/wyvern.png"
+    },
+    {
+      "id": 18,
+      "name": "Dark Elf",
+      "attack": 14,
+      "defense": 10,
+      "speed": 13,
+      "hp": 30,
+      "image_url": "/images/monsters/elf.png"
+    },
+    {
+      "id": 19,
+      "name": "Beholder",
+      "attack": 20,
+      "defense": 12,
+      "speed": 9,
+      "hp": 50,
+      "image_url": "/images/monsters/eye-monster.png"
+    },
+    {
+      "id": 20,
+      "name": "Hellhound",
+      "attack": 18,
+      "defense": 9,
+      "speed": 15,
+      "hp": 36,
+      "image_url": "/images/monsters/wolf.png"
+    }
+  ]
+}
