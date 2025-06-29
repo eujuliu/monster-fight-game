@@ -1,9 +1,10 @@
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { NavLink } from "react-router";
-import Logo from "../assets/logo.svg?react";
 import { BattleLogsDialog } from "@/components/battles-logs-dialog";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+//@ts-ignore
+import Logo from "../assets/logo.svg?react";
 
 type TabType = "start" | "mode-selector";
 

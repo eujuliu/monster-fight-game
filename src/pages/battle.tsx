@@ -1,12 +1,12 @@
+import { useEffect, useReducer, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import type { BattleLog } from "@/components/battle-log-panel";
 import { LifeBar } from "@/components/life-bar";
 import { MonsterCard } from "@/components/monster-card";
 import { RoundTimer } from "@/components/round-timer";
 import { useInterval } from "@/hooks/use-interval";
-import { createBattle, type Battle } from "@/utils/battles";
+import { type Battle as BattleType, createBattle } from "@/utils/battles";
 import { getMonster, type Monster } from "@/utils/monsters";
-import { useEffect, useReducer, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
 
 type RoundsState = Record<string, boolean>;
 type RoundsAction = { winner: string };
@@ -34,7 +34,7 @@ function Battle() {
     initalRoundsState,
   );
 
-  const [battle, setBattle] = useState<Battle>();
+  const [battle, setBattle] = useState<BattleType>();
   const [log, setLog] = useState<BattleLog>();
   const [isRunning, setRunning] = useState(false);
   const [delay] = useState(1000);

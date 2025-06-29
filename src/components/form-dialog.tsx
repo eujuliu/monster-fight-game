@@ -1,4 +1,11 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
+import {
+  type ControllerRenderProps,
+  type FieldValues,
+  type SubmitHandler,
+  type UseFormReturn,
+} from "react-hook-form";
+import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
@@ -17,12 +24,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import {
-  type ControllerRenderProps,
-  type FieldValues,
-  type UseFormReturn,
-} from "react-hook-form";
-import { Button } from "./ui/button";
 
 export type FormField = {
   name: string;
@@ -31,17 +32,17 @@ export type FormField = {
   control: (field: ControllerRenderProps<FieldValues, string>) => ReactNode;
 };
 
-type Props<T> = {
+interface Props<T> {
   open: boolean;
   title: string;
   trigger: ReactNode;
   triggerAsChild?: boolean;
   description: string;
-  form: UseFormReturn<any>;
+  form: UseFormReturn<Record<string | number | symbol, unknown>>;
   fields: FormField[];
   onSubmit: (values: T) => void;
   onChangeOpen?: (value: boolean) => void;
-};
+}
 
 function FormDialog<T>({
   open: openValue,
@@ -83,7 +84,12 @@ function FormDialog<T>({
           </DialogDescription>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <form
+              onSubmit={form.handleSubmit(
+                onSubmit as SubmitHandler<FieldValues>,
+              )}
+              className="space-y-2"
+            >
               <div className="overflow-auto space-y-4 px-2 md:px-0">
                 {fields.map(({ name, label, description, control }) => (
                   <FormField

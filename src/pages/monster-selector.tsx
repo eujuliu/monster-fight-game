@@ -1,21 +1,21 @@
-import { FormDialog, type FormField } from "@/components/form-dialog";
-import { MonsterSelect } from "@/components/monster-select";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import * as z from "zod";
-import { Slider } from "@/components/ui/slider";
-import type { Monster } from "@/utils/monsters";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { NavLink } from "react-router";
+
+import * as z from "zod";
+import { FormDialog, type FormField } from "@/components/form-dialog";
+import { MonsterCard } from "@/components/monster-card";
+import { MonsterSelect } from "@/components/monster-select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import type { Monster } from "@/utils/monsters";
 import {
   getDefaultMonsters,
   getLocalStorageMonsters,
   setLocalStorageMonsters,
 } from "@/utils/monsters";
-import { MonsterCard } from "@/components/monster-card";
 
 const formSchema = z.object({
   name: z
@@ -236,8 +236,9 @@ function MonsterSelector() {
                 <NavLink to="/">Back</NavLink>
               </Button>
 
-              <FormDialog<Monster>
+              <FormDialog<z.infer<typeof formSchema>>
                 open={dialogOpen}
+                //@ts-ignore
                 form={form}
                 fields={fields}
                 trigger={
@@ -248,6 +249,7 @@ function MonsterSelector() {
                 triggerAsChild
                 title="Create a Monster"
                 description="Here you will create your monster that will be used in the battles, choose the stats in a carefull way"
+                //@ts-ignore
                 onSubmit={onSubmit}
                 onChangeOpen={setDialogOpen}
               />

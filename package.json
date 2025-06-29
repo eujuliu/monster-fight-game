@@ -8,6 +8,7 @@
 		"build": "tsc -b && vite build",
 		"lint": "exec biome lint --write .",
 		"format": "exec biome format --write .",
+		"check": "exec biome check --write .",
 		"preview": "vite preview"
 	},
 	"dependencies": {
