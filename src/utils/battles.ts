@@ -81,7 +81,7 @@ function createBattle(leftMonster: Monster, rightMonster: Monster) {
           round: data.round,
           timestamp: data.timestamp,
           loser: structuredClone(loser),
-          side: winner === leftMonster ? "left" : "right",
+          side: winner.id === leftMonster.id ? "left" : "right",
           winnerVictories: data.victories[winner.id],
         }),
       );

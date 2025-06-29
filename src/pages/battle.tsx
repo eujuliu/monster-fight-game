@@ -81,9 +81,9 @@ function Battle() {
           setRoundWinner({ winner: `${log.side}-${log.winnerVictories}` });
         }
 
-        // if (log.type === "end") {
-        //   navigate(`/result/${battle.id}`);
-        // }
+        if (log.type === "end") {
+          navigate(`/result/${battle.id}`);
+        }
       }
     },
     isRunning ? delay : null,
@@ -105,14 +105,15 @@ function Battle() {
       right: "shadow-[0px_0px_35px_0px_#f56565] border-3 border-red-500",
     };
 
-    if (attacker?.id === id && side) return shadow[side] + " border-2 z-10";
+    if (attacker?.id === id && side)
+      return shadow[side] + " border-2 z-10 scale-80 md:scale-105";
 
     return "";
   }
 
   return (
     <div className="bg-[url(/images/backgrounds/battle-field.jpg)] h-full bg-cover bg-center">
-      <div className="flex justify-center w-full h-full p-4 backdrop-blur-lg">
+      <div className="flex justify-center w-full h-full p-4 backdrop-blur-sm">
         <div className="w-full max-w-[1200px]">
           <div className="flex flex-col gap-2 w-full md:flex-row md:item-center md:justify-between md:gap-8">
             <LifeBar

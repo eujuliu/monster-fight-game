@@ -1,4 +1,5 @@
 import type { Monster } from "@/utils/monsters";
+import { cn } from "@/utils/shadcn";
 import type { HTMLAttributes } from "react";
 
 export type LogType =
@@ -75,8 +76,6 @@ const typeColors: Record<LogType, string> = {
 };
 
 function BattleLogPanel({ logs, className }: Props) {
-  const divClassName = `rounded-xl p-3 border border-gray-200 ${className}`;
-
   function getFormatedDateFromTimestamp(timestamp: number) {
     const date = new Date(timestamp);
 
@@ -84,7 +83,12 @@ function BattleLogPanel({ logs, className }: Props) {
   }
 
   return (
-    <div className={divClassName}>
+    <div
+      className={cn(
+        "rounded-xl p-3 border border-gray-200 bg-neutral-50",
+        className,
+      )}
+    >
       <h2 className="text-lg font-semibold mb-2">Battle Log</h2>
       <div className="w-full max-h-80 h-full overflow-y-auto">
         <ul className="space-y-2 text-sm font-mono">

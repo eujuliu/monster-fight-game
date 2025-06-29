@@ -85,7 +85,7 @@ function MonsterSelect({
               >
                 <img
                   src={monster.image_url}
-                  className="h-20 w-full rounded-md object-cover object-top"
+                  className="h-20 w-full rounded-md object-cover object-top select-none"
                 />
 
                 {getSelectionOverlay(monster.id)}
