@@ -43,9 +43,6 @@ function Result() {
         <Button asChild>
           <NavLink to="/characters">Next</NavLink>
         </Button>
-        {/* <Button asChild>
-          <NavLink to="/battle">Rematch</NavLink>
-        </Button> */}
       </div>
     </div>
   );

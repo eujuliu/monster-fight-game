@@ -13,6 +13,7 @@ type BaseLog = {
   id: number;
   timestamp: number;
   message: string;
+  round: number;
 };
 
 type AttackLogFields = {
@@ -30,6 +31,13 @@ type RoundStartFields = {
   rightMonster: Monster;
 };
 
+type DefeatFields = {
+  type: "defeat";
+  loser: Monster;
+  side: "left" | "right";
+  winnerVictories: number;
+};
+
 type EndLogFields = {
   type: "end";
   damage: number;
@@ -38,7 +46,7 @@ type EndLogFields = {
 };
 
 type OtherLogFields = {
-  type: Exclude<LogType, "attack" | "end" | "roundStart">;
+  type: Exclude<LogType, "attack" | "end" | "roundStart" | "defeat">;
   damage?: number;
   hp?: number;
   attacker?: Monster;
@@ -50,6 +58,7 @@ export type BattleLog =
   | (BaseLog & AttackLogFields)
   | (BaseLog & EndLogFields)
   | (BaseLog & RoundStartFields)
+  | (BaseLog & DefeatFields)
   | (BaseLog & OtherLogFields);
 
 type Props = {

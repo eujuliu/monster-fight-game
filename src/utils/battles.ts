@@ -78,9 +78,11 @@ function createBattle(leftMonster: Monster, rightMonster: Monster) {
       battle.logs.push(
         generateLog("defeat", {
           id: getLogId(battle.logs),
-          round: data.round - 1,
+          round: data.round,
           timestamp: data.timestamp,
           loser: structuredClone(loser),
+          side: winner === leftMonster ? "left" : "right",
+          winnerVictories: data.victories[winner.id],
         }),
       );
 
@@ -91,7 +93,7 @@ function createBattle(leftMonster: Monster, rightMonster: Monster) {
         battle.logs.push(
           generateLog("end", {
             id: getLogId(battle.logs),
-            round: data.round - 1,
+            round: data.round,
             timestamp: data.timestamp,
             winner,
           }),

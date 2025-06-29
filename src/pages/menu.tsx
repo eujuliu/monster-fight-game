@@ -5,8 +5,10 @@ import { NavLink } from "react-router";
 import Logo from "../assets/logo.svg?react";
 import { BattleLogsDialog } from "@/components/battles-logs-dialog";
 
+type TabType = "start" | "mode-selector";
+
 function Menu() {
-  const [tab, setTab] = useState<"start" | "mode-selector">("start");
+  const [tab, setTab] = useState<TabType>("start");
 
   return (
     <div className="bg-[url(/images/backgrounds/guillaume-lucbert-sewers.jpg)] h-full bg-cover bg-center">
@@ -14,7 +16,11 @@ function Menu() {
         <div className="flex items-center justify-center flex-col gap-4 w-full">
           <Logo className="max-w-[700px]" />
 
-          <Tabs defaultValue={tab} value={tab} onValueChange={(v) => setTab(v)}>
+          <Tabs
+            defaultValue={tab}
+            value={tab}
+            onValueChange={(v) => setTab(v as TabType)}
+          >
             <TabsContent value="start">
               <Button
                 size="lg"

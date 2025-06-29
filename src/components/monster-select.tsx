@@ -31,7 +31,7 @@ function MonsterSelect({
 }: Props) {
   const chunkedMonsters = chunkArray(monsters, pageSize);
 
-  function getSelected(id: number) {
+  function getSelectionOverlay(id: number) {
     let one = false;
     let two = false;
 
@@ -88,7 +88,7 @@ function MonsterSelect({
                   className="h-20 w-full rounded-md object-cover object-top"
                 />
 
-                {getSelected(monster.id)}
+                {getSelectionOverlay(monster.id)}
               </Button>
             ))}
           </CarouselItem>

@@ -160,12 +160,10 @@ function MonsterSelector() {
     ...getLocalStorageMonsters(),
   ]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
       setIsMobile(window.innerWidth < 768);
     };
 
@@ -227,8 +225,8 @@ function MonsterSelector() {
 
   return (
     <div className="bg-[url(/images/backgrounds/tavern.png)] h-full bg-cover bg-center ">
-      <div className="flex items-center justify-center flex-col gap-2 h-full relative backdrop-blur-sm overflow-auto p-2 md:p-6">
-        <div className="max-w-[1200px]">
+      <div className="flex justify-center h-full relative backdrop-blur-sm overflow-auto p-2 py-4 md:p-6">
+        <div className="flex justify-center flex-col gap-2 md:gap-6 max-w-[1200px]">
           <header className="flex justify-end gap-2 w-full">
             <div className="w-full flex items-center justify-end gap-2">
               <Button
@@ -282,17 +280,17 @@ function MonsterSelector() {
             </Button>
           </div>
 
-          <div className="flex justify-around w-full">
+          <div className="flex justify-around w-full my-auto">
             <MonsterCard
               monster={getMonster("left")}
-              className={`${getCardShadow("left")} scale-90`}
+              className={`${getCardShadow("left")}`}
               onClick={() => setCurrentSelecting("left")}
             />
 
             {!isMobile && (
               <MonsterCard
                 monster={getMonster("right")}
-                className={`${getCardShadow("right")} scale-90`}
+                className={`${getCardShadow("right")}`}
                 onClick={() => setCurrentSelecting("right")}
               />
             )}
