@@ -1,31 +1,21 @@
-import { FormDialog, type FormField } from "@/components/form-dialog";
-import { MonsterSelect } from "@/components/monster-select";
-import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { NavLink } from "react-router";
 
 import * as z from "zod";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Slider } from "@/components/ui/slider";
-import type { Monster, MonsterInfoKeys } from "@/utils/monsters";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormDialog, type FormField } from "@/components/form-dialog";
+import { MonsterCard } from "@/components/monster-card";
+import { MonsterSelect } from "@/components/monster-select";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NavLink } from "react-router";
-import { Information } from "@/components/information";
+import { Slider } from "@/components/ui/slider";
+import type { Monster } from "@/utils/monsters";
 import {
   getDefaultMonsters,
   getLocalStorageMonsters,
   setLocalStorageMonsters,
 } from "@/utils/monsters";
-
-type Info = {
-  label: string;
-  name: MonsterInfoKeys;
-};
 
 const formSchema = z.object({
   name: z
@@ -154,12 +144,6 @@ const fields: FormField[] = [
     ),
   },
 ];
-const informations: Info[] = [
-  { label: "HP", name: "hp" },
-  { label: "Attack", name: "attack" },
-  { label: "Defense", name: "defense" },
-  { label: "Speed", name: "speed" },
-];
 
 function MonsterSelector() {
   const [selected, setSelected] = useState<
@@ -171,12 +155,24 @@ function MonsterSelector() {
   const [currentSelecting, setCurrentSelecting] = useState<"left" | "right">(
     "left",
   );
-
   const [monsters, setMonsters] = useState<Monster[]>([
     ...getDefaultMonsters(),
     ...getLocalStorageMonsters(),
   ]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -190,13 +186,33 @@ function MonsterSelector() {
     },
   });
 
-  function handleMonsterSelection(value: Monster) {
-    if (!selected.left) {
-      setSelected({ ...selected, left: value });
-      setCurrentSelecting("right");
+  function getMonster(side: "left" | "right") {
+    if (isMobile) {
+      return selected[currentSelecting];
     }
-    if (selected.left && !selected.right)
-      setSelected({ ...selected, right: value });
+
+    return selected[side];
+  }
+
+  function getCardShadow(side: "left" | "right") {
+    const leftShadow =
+      "shadow-[0px_0px_35px_0px_#4299e1] border-3 border-blue-500";
+    const rightShadow =
+      "shadow-[0px_0px_35px_0px_#f56565] border-3 border-red-500";
+
+    if (isMobile) {
+      return currentSelecting === "left" ? leftShadow : rightShadow;
+    }
+
+    if (side == "left" && currentSelecting == "left") return leftShadow;
+
+    if (side == "right" && currentSelecting == "right") return rightShadow;
+
+    return "";
+  }
+
+  function handleMonsterSelection(value: Monster) {
+    setSelected({ ...selected, [currentSelecting]: value });
   }
 
   function onSubmit(values: Monster) {
@@ -208,85 +224,88 @@ function MonsterSelector() {
   }
 
   return (
-    <div className="flex items-center justify-center flex-col gap-2 h-full relative">
-      <header className="flex justify-between gap-2 w-full pt-2">
-        <div>
-          <Button
-            variant="ghost"
-            className={currentSelecting == "left" ? "font-bold" : ""}
-            onClick={() => setCurrentSelecting("left")}
-          >
-            Left
-          </Button>
-          <Button
-            variant="ghost"
-            className={currentSelecting == "right" ? "font-bold" : ""}
-            onClick={() => setCurrentSelecting("right")}
-          >
-            Right
-          </Button>
-        </div>
-        <div className="flex gap-2">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button>Informations</Button>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2">
-              {informations.map(({ label, name }) => (
-                <Information
-                  key={name}
-                  name={name}
-                  label={label}
-                  value={(selected[currentSelecting]?.[name] as number) || 0}
-                />
-              ))}
-            </PopoverContent>
-          </Popover>
+    <div className="bg-[url(/images/backgrounds/tavern.png)] h-full bg-cover bg-center ">
+      <div className="flex justify-center h-full relative backdrop-blur-sm overflow-auto p-2 py-4 md:p-6">
+        <div className="flex justify-center flex-col gap-2 md:gap-6 max-w-[1200px]">
+          <header className="flex justify-end gap-2 w-full">
+            <div className="w-full flex items-center justify-end gap-2">
+              <Button
+                asChild
+                className="bg-white hover:bg-neutral-300 text-neutral-800"
+              >
+                <NavLink to="/">Back</NavLink>
+              </Button>
 
-          <FormDialog<Monster>
-            open={dialogOpen}
-            form={form}
-            fields={fields}
-            trigger={<Button>New</Button>}
-            triggerAsChild
-            title="Create a Monster"
-            description="Here you will create your monster that will be used in the battles, choose the stats in a carefull way"
-            onSubmit={onSubmit}
-            onChangeOpen={setDialogOpen}
+              <FormDialog<z.infer<typeof formSchema>>
+                open={dialogOpen}
+                //@ts-ignore
+                form={form}
+                fields={fields}
+                trigger={
+                  <Button className="bg-white hover:bg-neutral-300 text-neutral-800">
+                    New
+                  </Button>
+                }
+                triggerAsChild
+                title="Create a Monster"
+                description="Here you will create your monster that will be used in the battles, choose the stats in a carefull way"
+                //@ts-ignore
+                onSubmit={onSubmit}
+                onChangeOpen={setDialogOpen}
+              />
+
+              <Button
+                asChild
+                className={`bg-red-500 hover:bg-red-600-300 text-neutral-50 ${!selected.left || !selected.right ? "pointer-events-none opacity-50" : ""}`}
+              >
+                <NavLink
+                  to={`/battle?left=${selected.left?.id}&right=${selected.right?.id}`}
+                >
+                  Fight
+                </NavLink>
+              </Button>
+            </div>
+          </header>
+
+          <div className="absolute right-2 top-1/2 z-10 flex flex-col gap-2 md:hidden">
+            <Button
+              className={`bg-blue-500 hover:bg-blue-700 ${currentSelecting == "left" ? "pointer-events-none opacity-50" : ""}`}
+              onClick={() => setCurrentSelecting("left")}
+            >
+              Left
+            </Button>
+            <Button
+              className={`bg-red-500 hover:bg-red-700 ${currentSelecting == "right" ? "pointer-events-none opacity-50" : ""}`}
+              onClick={() => setCurrentSelecting("right")}
+            >
+              Right
+            </Button>
+          </div>
+
+          <div className="flex justify-around w-full my-auto">
+            <MonsterCard
+              monster={getMonster("left")}
+              className={`${getCardShadow("left")}`}
+              onClick={() => setCurrentSelecting("left")}
+            />
+
+            {!isMobile && (
+              <MonsterCard
+                monster={getMonster("right")}
+                className={`${getCardShadow("right")}`}
+                onClick={() => setCurrentSelecting("right")}
+              />
+            )}
+          </div>
+
+          <MonsterSelect
+            monsters={monsters}
+            onChangeMonster={handleMonsterSelection}
+            value={selected}
+            multiple
+            pageSize={isMobile ? 12 : 30}
           />
         </div>
-      </header>
-
-      <img
-        src={
-          selected[currentSelecting]?.image_url ||
-          "/images/monsters/humanoid.jpg"
-        }
-        alt={`A monster with name ${selected[currentSelecting]?.name}`}
-        className="h-full max-h-[calc(100vh-426px)] w-full object-contain"
-      />
-      <div className="text-2xl font-bold self-start">
-        {selected[currentSelecting]?.name || "?????"}
-      </div>
-
-      <MonsterSelect
-        monsters={monsters}
-        className="mt-auto"
-        onChangeMonster={handleMonsterSelection}
-        value={selected}
-      />
-
-      <div className="w-full flex items-center justify-end gap-2">
-        <Button asChild>
-          <NavLink to="/">Back</NavLink>
-        </Button>
-        <Button asChild>
-          <NavLink
-            to={`/battle?left=${selected.left?.id}&right=${selected.right?.id}`}
-          >
-            Fight
-          </NavLink>
-        </Button>
       </div>
     </div>
   );
